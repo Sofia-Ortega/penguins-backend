@@ -1,4 +1,3 @@
 package com.example.penguins.entities;
 
-public class Penguin {
-}
+public record Penguin (String name, Integer hunger, Integer love) {}
