@@ -1,5 +1,5 @@
 package com.example.penguins.entities;
-
+import  com.example.penguins.enums.Species;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,29 +8,32 @@ public class Penguin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String name;
     private Integer hunger;
     private Integer love;
 
+    @Enumerated(EnumType.STRING)
+    private Species species;
+
     // Default constructor is needed for JPA
     public Penguin() {
     }
 
-    // Constructor with parameters
-    public Penguin(String name, Integer hunger, Integer love) {
+    public Penguin(String name, Integer hunger, Integer love, Species species) {
         this.name = name;
         this.hunger = hunger;
         this.love = love;
+        this.species = species;
     }
 
     // Getters and setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -56,5 +59,13 @@ public class Penguin {
 
     public void setLove(Integer love) {
         this.love = love;
+    }
+
+    public Species getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(Species species) {
+        this.species = species;
     }
 }

@@ -3,11 +3,12 @@ package com.example.penguins.controllers;
 import com.example.penguins.Repositories.PenguinRepository;
 import com.example.penguins.entities.Penguin;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-@RestController("penguins")
+import java.net.URI;
+
+@RestController
+@RequestMapping("/penguins")
 public class PenguinController {
 
     PenguinRepository penguinRepository;
@@ -16,8 +17,15 @@ public class PenguinController {
         this.penguinRepository = penguinRepository;
     }
 
-    @PostMapping("/")
-    public Penguin createPenguin(@RequestBody Penguin penguin) {
-        return penguinRepository.save(penguin);
+    @GetMapping
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("nice");
+    }
+
+
+    @PostMapping()
+    public ResponseEntity<Penguin> createPenguin(@RequestBody Penguin penguin) {
+        Penguin createdPenguin = penguinRepository.save(penguin);
+        return ResponseEntity.created(URI.create("/penguins/" + createdPenguin.getId())).build();
     }
 }
