@@ -1,4 +1,4 @@
-package com.example.penguins.Repositories;
+package com.example.penguins.repositories;
 
 import com.example.penguins.entities.Penguin;
 import org.springframework.data.repository.CrudRepository;

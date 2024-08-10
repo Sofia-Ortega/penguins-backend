@@ -1,12 +1,11 @@
 package com.example.penguins.controllers;
 
-import com.example.penguins.Repositories.PenguinRepository;
+import com.example.penguins.repositories.PenguinRepository;
 import com.example.penguins.entities.Penguin;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/penguins")

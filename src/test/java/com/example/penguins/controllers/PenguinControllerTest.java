@@ -1,6 +1,6 @@
 package com.example.penguins.controllers;
 
-import com.example.penguins.Repositories.PenguinRepository;
+import com.example.penguins.repositories.PenguinRepository;
 import com.example.penguins.entities.Penguin;
 import com.example.penguins.enums.Species;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
