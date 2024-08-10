@@ -28,6 +28,14 @@ public class Penguin {
         this.species = species;
     }
 
+    public Penguin(Integer id, String name, Integer hunger, Integer love, Species species) {
+        this.id = id;
+        this.name = name;
+        this.hunger = hunger;
+        this.love = love;
+        this.species = species;
+    }
+
     // Getters and setters
     public Integer getId() {
         return id;

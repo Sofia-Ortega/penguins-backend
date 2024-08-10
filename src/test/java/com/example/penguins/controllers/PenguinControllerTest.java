@@ -14,7 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = PenguinController.class)
@@ -55,5 +59,22 @@ public class PenguinControllerTest {
         mvc.perform(MockMvcRequestBuilders.post("/penguins").contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    void getPenguinsTest() throws Exception {
+
+        Penguin joe = new Penguin(1, "joe", 0, 0, Species.ROCKHOPPER);
+        Penguin joey = new Penguin(2, "joey", 1, -10, Species.EMPEROR);
+
+        Iterable<Penguin> penguins = Arrays.asList(joe, joey);
+        when(penguinRepository.findAll()).thenReturn(penguins);
+
+        mvc.perform(MockMvcRequestBuilders.get("/penguins").accept(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        content().json(asJsonString(penguins))
+                );
     }
 }
