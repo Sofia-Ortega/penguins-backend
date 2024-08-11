@@ -4,7 +4,6 @@ import com.example.penguins.repositories.PenguinRepository;
 import com.example.penguins.entities.Penguin;
 import com.example.penguins.enums.Species;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -49,13 +49,12 @@ public class PenguinControllerTest {
         // reset id before send with post request
         createdPenguin.setId(null);
 
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(createdPenguin);
+        String json = asJsonString(createdPenguin);
 
         System.out.println("JSON: " + asJsonString(createdPenguin));
 
-        mvc.perform(MockMvcRequestBuilders.post("/penguins").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(MockMvcRequestBuilders.post("/penguins")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated());
     }
@@ -75,5 +74,32 @@ public class PenguinControllerTest {
                         content().contentType(MediaType.APPLICATION_JSON),
                         content().json(asJsonString(penguins))
                 );
+    }
+
+    @Test
+    void feedPenguinTest() throws Exception {
+        Integer penguinId = 1;
+        Penguin joe = new Penguin(1, "joe", 0, 0, Species.ROCKHOPPER);
+
+        when(penguinRepository.findById(penguinId)).thenReturn(Optional.of(joe));
+
+        joe.setHunger(joe.getHunger() + 1);
+        when(penguinRepository.save(Mockito.any(Penguin.class))).thenReturn(joe);
+
+        mvc.perform(MockMvcRequestBuilders.post("/penguins/feed/" + penguinId).contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        content().json(joe.getHunger().toString())
+                );
+    }
+
+    @Test
+    void feedPenguinTest__InvalidPenguinIdReturns404() throws Exception {
+        Integer invalidPenguinId = 10;
+        when(penguinRepository.findById(invalidPenguinId)).thenReturn(Optional.empty());
+
+        mvc.perform(MockMvcRequestBuilders.post("/penguins/feed/" + invalidPenguinId).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }
