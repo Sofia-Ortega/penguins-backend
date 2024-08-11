@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/penguins")
@@ -27,5 +28,21 @@ public class PenguinController {
     public ResponseEntity<Iterable<Penguin>> getPenguins() {
         Iterable<Penguin> penguins = penguinRepository.findAll();
         return ResponseEntity.ok(penguins);
+    }
+
+    @PostMapping("/feed/{penguinId}")
+    public ResponseEntity<Integer> feedPenguin(@PathVariable Integer penguinId) {
+        Optional<Penguin> optionalPenguin = penguinRepository.findById(penguinId);
+        if(optionalPenguin.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Penguin penguin = optionalPenguin.get();
+        penguin.setHunger(penguin.getHunger() + 1);
+
+        Penguin updatedPenguin = penguinRepository.save(penguin);
+
+        return ResponseEntity.ok(updatedPenguin.getHunger());
+
     }
 }
