@@ -18,8 +18,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -105,6 +104,21 @@ public class PenguinControllerTest {
         Penguin capturedPenguin = penguinCaptor.getValue();
 
         assertEquals(updatedHunger, capturedPenguin.getHunger());
+    }
+
+    @Test
+    void feedPenguinTest__HungerShouldNotGoToNegative() throws Exception {
+        final Integer penguinId = 1;
+        final Integer hunger = 0;
+
+        Penguin joe = new Penguin(penguinId, "joe", hunger, 0, Species.ROCKHOPPER);
+
+        when(penguinRepository.findById(penguinId)).thenReturn(Optional.of(joe));
+
+        mvc.perform(MockMvcRequestBuilders.post("/penguins/feed/" + penguinId))
+                .andExpect(status().isBadRequest());
+
+        verify(penguinRepository, never()).save(any(Penguin.class));
     }
 
     @Test

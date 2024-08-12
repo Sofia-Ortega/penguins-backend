@@ -7,6 +7,11 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 
 # Hibernate settings
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto=create-drop
-spring.jpa.defer-datasource-initialization=true
-spring.sql.init.mode=always
+# Validate
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.defer-datasource-initialization=false
+
+# Create-drop
+#spring.jpa.hibernate.ddl-auto=create-drop
+#spring.jpa.defer-datasource-initialization=true
+#spring.sql.init.mode=always
