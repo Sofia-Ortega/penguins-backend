@@ -81,7 +81,7 @@ public class PenguinControllerTest {
     @Test
     void feedPenguinTest() throws Exception {
         final Integer penguinId = 1;
-        final Integer originalHunger = 10;
+        final int originalHunger = 10;
         final Integer updatedHunger = originalHunger - 1;
 
         Penguin joe = new Penguin(penguinId, "joe", originalHunger, 0, Species.ROCKHOPPER);
