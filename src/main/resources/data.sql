@@ -1,4 +1,4 @@
-INSERT INTO penguins (name, hunger, love, species)
-    VALUES ('joe', 0, 20, 'ROCKHOPPER'),
-           ('sam', 0, 30, 'EMPEROR'),
-           ('bob', 0, 10, 'ADELIE');
+-- INSERT INTO penguins (name, hunger, love, species)
+--     VALUES ('joe', 100, 20, 'ROCKHOPPER'),
+--            ('sam', 10, 30, 'EMPEROR'),
+--            ('bob', 5, 10, 'ADELIE');
