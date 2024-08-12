@@ -38,7 +38,11 @@ public class PenguinController {
         }
 
         Penguin penguin = optionalPenguin.get();
+
+        if(penguin.getHunger() == 0) return ResponseEntity.badRequest().build();
+
         penguin.setHunger(penguin.getHunger() - 1);
+        if(penguin.getHunger() < 0) penguin.setHunger(0);
 
         Penguin updatedPenguin = penguinRepository.save(penguin);
 
