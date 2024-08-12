@@ -38,7 +38,7 @@ public class PenguinController {
         }
 
         Penguin penguin = optionalPenguin.get();
-        penguin.setHunger(penguin.getHunger() + 1);
+        penguin.setHunger(penguin.getHunger() - 1);
 
         Penguin updatedPenguin = penguinRepository.save(penguin);
 

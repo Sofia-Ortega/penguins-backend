@@ -5,6 +5,7 @@ import com.example.penguins.entities.Penguin;
 import com.example.penguins.enums.Species;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,6 +17,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Arrays;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -78,20 +81,30 @@ public class PenguinControllerTest {
 
     @Test
     void feedPenguinTest() throws Exception {
-        Integer penguinId = 1;
-        Penguin joe = new Penguin(1, "joe", 0, 0, Species.ROCKHOPPER);
+        final Integer penguinId = 1;
+        final Integer originalHunger = 10;
+        final Integer updatedHunger = originalHunger - 1;
+
+        Penguin joe = new Penguin(penguinId, "joe", originalHunger, 0, Species.ROCKHOPPER);
+        Penguin updatedJoe = new Penguin(penguinId, "joe", updatedHunger, 0, Species.ROCKHOPPER);
 
         when(penguinRepository.findById(penguinId)).thenReturn(Optional.of(joe));
 
-        joe.setHunger(joe.getHunger() + 1);
-        when(penguinRepository.save(Mockito.any(Penguin.class))).thenReturn(joe);
+        when(penguinRepository.save(Mockito.any(Penguin.class))).thenReturn(updatedJoe);
 
         mvc.perform(MockMvcRequestBuilders.post("/penguins/feed/" + penguinId).contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
-                        content().json(joe.getHunger().toString())
+                        content().json(updatedHunger.toString())
                 );
+
+
+        ArgumentCaptor<Penguin> penguinCaptor = ArgumentCaptor.forClass(Penguin.class);
+        verify(penguinRepository).save(penguinCaptor.capture());
+        Penguin capturedPenguin = penguinCaptor.getValue();
+
+        assertEquals(updatedHunger, capturedPenguin.getHunger());
     }
 
     @Test
