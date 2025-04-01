@@ -25,7 +25,7 @@ public class OnStartupAndShutdown {
     }
 
 
-    @PostConstruct
+   // @PostConstruct
     private void getHungerDifference() {
 
         // Note: penguin table at 8/12/24 10:39 PM

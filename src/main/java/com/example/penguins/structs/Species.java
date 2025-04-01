@@ -1,4 +1,4 @@
-package com.example.penguins.enums;
+package com.example.penguins.structs;
 
 public enum Species {
     ROCKHOPPER,
