@@ -80,3 +80,53 @@ Feeds a penguin by decreasing its hunger level by 1.
 - **400 Bad Request** – The penguin is not hungry (hunger level is already 0).
 
 - **404 Not Found** – Penguin with the given ID does not exist.
+
+
+### 4. Delete a Penguin
+
+**Endpoint:**
+`DELETE /penguins/{penguinId}`
+
+**Description:**
+Deletes a penguin from the database.
+
+**Path Parameter:**
+- `penguinId` (Integer) – The ID of the penguin to delete.
+
+**Response:**
+- **204 No Content** – Penguin successfully deleted.
+- **404 Not Found** – Penguin with the given ID does not exist.
+
+### 5. Update a Penguin
+
+**Endpoint:**
+`PUT /penguins/{penguinId}`
+
+**Description:**
+Updates an existing penguin's name and species.
+
+**Path Parameter:**
+- `penguinId` (Integer) – The ID of the penguin to update.
+
+**Request Body:**
+```json
+{
+  "name": "Updated Name",
+  "species": "ADELIE"
+}
+```
+
+**Responses**
+- **200 OK** – Returns the updated penguin object.
+  ```
+  {
+    "id": 1,
+    "name": "Updated Name",
+    "species": "ADELIE",
+    "hunger": 5
+  }
+  ```
+- **400 Bad Request** – Invalid species name provided.
+- **404 Not Found** – Penguin with the given ID does not exist.
+
+
