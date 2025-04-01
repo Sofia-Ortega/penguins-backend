@@ -1,5 +1,5 @@
 package com.example.penguins.entities;
-import  com.example.penguins.enums.Species;
+import  com.example.penguins.structs.Species;
 import jakarta.persistence.*;
 
 @Entity

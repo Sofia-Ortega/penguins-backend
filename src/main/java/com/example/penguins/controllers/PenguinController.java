@@ -2,6 +2,8 @@ package com.example.penguins.controllers;
 
 import com.example.penguins.repositories.PenguinRepository;
 import com.example.penguins.entities.Penguin;
+import com.example.penguins.structs.PenguinRequest;
+import com.example.penguins.structs.Species;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,5 +50,34 @@ public class PenguinController {
 
         return ResponseEntity.ok(updatedPenguin.getHunger());
 
+    }
+
+    @DeleteMapping("/{penguinId}")
+    public ResponseEntity<Void> deletePenguin(@PathVariable Integer penguinId) {
+        if (!penguinRepository.existsById(penguinId)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        penguinRepository.deleteById(penguinId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{penguinId}")
+    public ResponseEntity<Penguin> updatePenguin(@PathVariable Integer penguinId, @RequestBody PenguinRequest penguinRequest) {
+        Optional<Penguin> optionalPenguin = penguinRepository.findById(penguinId);
+        if (optionalPenguin.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Penguin penguin = optionalPenguin.get();
+        penguin.setName(penguinRequest.getName());
+        try {
+            penguin.setSpecies(Species.valueOf(penguinRequest.getSpecies().toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        Penguin updatedPenguin = penguinRepository.save(penguin);
+        return ResponseEntity.ok(updatedPenguin);
     }
 }

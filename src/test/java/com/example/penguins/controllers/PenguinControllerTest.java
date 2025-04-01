@@ -2,7 +2,7 @@ package com.example.penguins.controllers;
 
 import com.example.penguins.repositories.PenguinRepository;
 import com.example.penguins.entities.Penguin;
-import com.example.penguins.enums.Species;
+import com.example.penguins.structs.Species;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
