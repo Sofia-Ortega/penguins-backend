@@ -2,9 +2,9 @@
 
 Frontend found [here](https://github.com/Sofia-Ortega/penguins-frontend)
 
-Project to practice Test Driven Development using mockito and the basics of Spring Boot
+RESTful API Project to practice Test Driven Development using mockito and Spring Boot
 
-Gets and Creates Penguins. Also gives the ability to feed partitular Penguins
+Gets, Creates, Updates, and Deletes Penguins. Also gives the ability to feed partitular Penguins
 
 ## Penguin API Documentation
 Base URL:
